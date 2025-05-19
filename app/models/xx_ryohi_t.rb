@@ -1,0 +1,2 @@
+class XxRyohiT < ApplicationRecord
+end

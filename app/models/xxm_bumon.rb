@@ -1,0 +1,2 @@
+class XxmBumon < ApplicationRecord
+end
