@@ -1,0 +1,2 @@
+module EmployeeTacoMastersHelper
+end
