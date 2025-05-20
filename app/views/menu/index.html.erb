@@ -1,10 +1,10 @@
 <div>
   <ol>
-    <li><%= link_to '旅費手配メイン', menu_path %></li>
-    <li><%= link_to '社員・タコマスタメンテ', menu_path %></li>
-    <li><%= link_to '部門マスタメンテ', menu_path %></li>
-    <li><%= link_to '集計帳票<', menu_path %></li>
+    <li><%= link_to '旅費手配メイン', travel_requests_path %></li>
+    <li><%= link_to '社員・タコマスタメンテ', employee_taco_masters_path %></li>
+    <li><%= link_to '部門マスタメンテ', departments_path %></li>
+    <li><%= link_to '集計帳票', reports_path %></li>
   </ol>
 </div>
 
-<button onclick="window.close()">閉じる</button>
+<button onclick="location.href='/'">閉じる(ログアウト)</button>   

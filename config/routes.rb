@@ -9,19 +9,21 @@ Rails.application.routes.draw do
   get 'menu/index', to: 'menu#index', as: 'menu'
   
   # 旅費手配画面ルート
-  get 'travel_requests/new'
+  get 'travel_requests/new', to: 'travel_requests#new', as: 'travel_requests'
   get 'travel_requests/index'
-  
+
   # 社員・タコマスタメンテ画面ルート
-  get 'employee_taco_masters/new'
-  get 'employee_taco_masters/index'
-  
+  get 'employee_taco_masters/new',to: 'employee_taco_masters#new', as: 'employee_taco_masters'
+  get 'employee_taco_masters/index', to: 'employee_taco_masters#index', as: 'employee_index'
+ post 'employee_taco_masters/create', to: 'employee_taco_masters#create', as: 'employee_create'
+
+
   # 部門マスタメンテ画面ルート
-  get 'departments/new'
+  get 'departments/new', to: 'departments#new', as: 'departments'
   get 'departments/index'
 
   # 集計帳票画面ルート
-  get 'reports/index'
+  get 'reports/index', to: 'reports#index', as: 'reports'
   
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
   

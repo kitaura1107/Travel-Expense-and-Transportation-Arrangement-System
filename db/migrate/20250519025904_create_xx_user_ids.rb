@@ -1,14 +1,14 @@
 class CreateXxUserIds < ActiveRecord::Migration[7.1]
   def change
-    create_table :xx_user_ids do |t|
-      t.string :UserID, limit:4
+    create_table :xx_user_ids, id: false do |t|
+      t.string :UserID, limit:4, primary_key: true
       t.datetime :InsTime, null:false
       t.string :InsUserID, limit:4
       t.string :InsPGID, limit:7
       t.datetime :UpdTime, null:false
       t.string :UpdUserID, limit:4
       t.string :UpdPGID, limit: 8
-      t.integer :UpdCount, default:1
+      t.integer :UpdCount
       t.string :UserName, limit:40
       t.string :Password, limit:10
       t.string :UserKubun, limit:1, default:"1"

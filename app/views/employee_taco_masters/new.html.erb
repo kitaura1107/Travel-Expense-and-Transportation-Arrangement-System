@@ -1,2 +1,44 @@
-<h1>EmployeeTacoMasters#new</h1>
-<p>Find me in app/views/employee_taco_masters/new.html.erb</p>
+
+<div>
+  <%= form_with url: root_path, method: :get, local: true do |form| %>
+    <%= form.label :query, "社員No.・タコ" %>
+    <%= form.text_field :query, placeholder: "0000" %>
+    <%= form.submit "検索" %>
+  <% end %>
+
+  <button onclick="location.href='<%= employee_index_path %>'">一覧画面</button>
+
+</div>
+
+<hr>
+
+<%= form_with model: @xx_user_id, url: employee_create_path, method: :post, local: true do |form| %>
+  <div>
+    <%= form.label :UserName, "ユーザー名" %>
+    <%= form.text_field :UserName %>
+  </div>
+
+  <div>
+    <%= form.label :encrypted_password, "パスワード" %>
+    <%= form.text_field :encrypted_password %>
+  </div>
+
+  <div>
+    <%= form.label :UserKubun, "ユーザー区分" %>
+    <%= form.select :UserKubun, options_for_select([["社員", "1"], ["タコ", "2"]], "1"), prompt: "選択してください" %>
+  </div>
+
+  <div>
+    <%= form.label :email, "メールアドレス" %>
+    <%= form.text_field :email %>
+  </div>
+
+  <div>
+    <%= form.submit "登録" %>
+  </div>
+<% end %>
+
+<button type="button">削除</button>
+<button type="button">取消</button>
+
+<button type="button" onclick="location.href='<%= menu_path %>'">閉じる</button>
