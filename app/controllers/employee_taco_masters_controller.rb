@@ -9,7 +9,7 @@ class EmployeeTacoMastersController < ApplicationController
 
   def create
     @employee_save = XxUserId.new(employee_create_params)
-    @employee_save.InsUserID = current_xx_user_id&.UserID || "0000"
+    @employee_save.InsUserID = "0000"
     @employee_save.InsPGID = "C01M001"
     @employee_save.UpdCount = 1
     if @employee_save.save
