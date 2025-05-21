@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_05_20_080522) do
+ActiveRecord::Schema[7.1].define(version: 2025_05_21_043109) do
   create_table "xx_ryohi_ts", force: :cascade do |t|
     t.string "RefNO", limit: 9
     t.datetime "InsTime", null: false
@@ -46,11 +46,12 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_20_080522) do
     t.integer "UpdCount", default: 1
     t.string "UserName", limit: 40
     t.string "UserKubun", limit: 1, default: "1"
-    t.string "email", limit: 50, null: false
+    t.string "MailAdress", limit: 50, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "encrypted_password", default: "", null: false
-    t.index ["email"], name: "index_xx_user_ids_on_email", unique: true
+    t.datetime "remember_created_at"
+    t.index ["MailAdress"], name: "index_xx_user_ids_on_MailAdress", unique: true
   end
 
   create_table "xxm_bumons", force: :cascade do |t|

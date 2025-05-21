@@ -5,6 +5,11 @@ Rails.application.routes.draw do
     root to: "xx_user_ids/sessions#new"  # ログイン画面をrootにする
   end
   
+  # Username情報取得ルート
+  namespace :xx_user_ids do
+    get 'fetch_username', to: 'users#fetch_username'
+  end
+
   # メニュー画面ルート
   get 'menu/index', to: 'menu#index', as: 'menu'
   
@@ -15,7 +20,7 @@ Rails.application.routes.draw do
   # 社員・タコマスタメンテ画面ルート
   get 'employee_taco_masters/new',to: 'employee_taco_masters#new', as: 'employee_taco_masters'
   get 'employee_taco_masters/index', to: 'employee_taco_masters#index', as: 'employee_index'
- post 'employee_taco_masters/create', to: 'employee_taco_masters#create', as: 'employee_create'
+  post 'employee_taco_masters/create', to: 'employee_taco_masters#create', as: 'employee_create'
 
 
   # 部門マスタメンテ画面ルート
@@ -24,7 +29,7 @@ Rails.application.routes.draw do
 
   # 集計帳票画面ルート
   get 'reports/index', to: 'reports#index', as: 'reports'
-  
+
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
   
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.

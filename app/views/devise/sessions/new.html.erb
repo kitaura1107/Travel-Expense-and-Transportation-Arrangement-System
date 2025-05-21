@@ -1,9 +1,12 @@
 <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
   
   <div class="field">
-    <%= f.label :user_id, "ログインID*" %><%= f.email_field :UserID, autofocus: true, autocomplete: "UserID" %>
+    <%= f.label :user_id, "ログインID*" %><%= f.text_field :UserID, id: "user_id_input", autofocus: true, autocomplete: "UserID" %>
 
-    <%= f.label :UserName, "ユーザー名:" %><%= f.email_field :UserName, autofocus: true, autocomplete: "UserName" %>さんようこそ
+
+    <div class="field">
+      <label>ユーザー名: <span id="user_name_display"></span> さんようこそ</label>
+    </div>
   </div>
    
   <div class="field">
@@ -20,3 +23,5 @@
   </div>
 
 <%= link_to 'メニューへ', menu_path %>
+
+<%= javascript_include_tag "sessions", type: "module" %>
