@@ -170,6 +170,8 @@ GEM
     nokogiri (1.18.8-x86_64-linux-musl)
       racc (~> 1.4)
     orm_adapter (0.5.0)
+    paranoia (2.6.4)
+      activerecord (>= 5.1, < 7.2)
     pp (0.6.2)
       prettyprint
     prettyprint (0.2.0)
@@ -295,6 +297,7 @@ DEPENDENCIES
   devise
   importmap-rails
   jbuilder
+  paranoia (~> 2.4)
   puma (>= 5.0)
   rails (~> 7.1.5, >= 7.1.5.1)
   selenium-webdriver

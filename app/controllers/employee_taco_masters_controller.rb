@@ -4,18 +4,24 @@ class EmployeeTacoMastersController < ApplicationController
   end
 
   def index
+    @xx_user_ids = XxUserId.all
   end
   
   def search
-    @employee_search = XxUserId.where("UserID LIKE ?", "%#{params[:search]}%")
+    keyword = params[:query].to_s.strip
+    @xx_user_id = XxUserId.find_by(UserID: keyword)
+    @record_found = @xx_user_id.present?
+    @xx_user_id ||= XxUserId.new
+    render :new
   end
+
   
   def create
     @employee_save = XxUserId.new(employee_create_params)
-    @employee_save.InsUserID = "0000"
+    @employee_save.InsUserID = current_xx_user_id&.UserID || "0000"
     @employee_save.InsPGID = "C01M001"
     @employee_save.UpdCount = 1
-    if @employee_save.save!
+    if @employee_save.save
        redirect_to employee_index_path
     else
        render :new
@@ -23,19 +29,29 @@ class EmployeeTacoMastersController < ApplicationController
   end
 
   def update
-    @employee_update = XxUserId.find(params[:UserID])
-    @employee_update.UserName = params[:xx_user_id][:UserName]
-    @employee_update.password = params[:xx_user_id][:password]
-    @employee_update.UserKubun = params[:xx_user_id][:UserKubun]
-    @employee_update.MailAdress = params[:xx_user_id][:MailAdress]
-    if @employee_update.save!
-       redirect_to employee_index_path
-    else
-       render :edit
+    @employee_update = XxUserId.find_by(UserID: params[:xx_user_id][:UserID])
+    if @employee_update
+      @employee_update.assign_attributes(employee_create_params)
+      @employee_update.UpdCount += 1
+      @employee_update.UpdUserID = current_xx_user_id&.UserID || "0000"
+      @employee_update.UpdPGID = "C01M001"
+      if @employee_update.save
+        redirect_to employee_index_path notice: "更新しました"
+      else
+        flash.now[:alert] = "更新できませんでした"
+        render :new
+      end
     end
   end
 
   def destroy
+    employee_delete = XxUserId.find_by(UserID: params[:query])
+    if employee_delete
+      employee_delete.destroy
+      redirect_to employee_index_path notice: "削除しました"
+    else
+      redirect_to employee_index_path alert: "削除できませんでした"
+    end
   end
 
   private

@@ -67,3 +67,5 @@ group :test do
 end
 
 gem "devise"
+
+gem 'paranoia', '~> 2.4'

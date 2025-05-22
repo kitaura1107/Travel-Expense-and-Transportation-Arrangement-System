@@ -1,2 +1,101 @@
-<h1>Departments#new</h1>
-<p>Find me in app/views/departments/new.html.erb</p>
+<div>
+  <%= form_with url: department_search_path, method: :get, local: true do |form| %>
+    <%= form.label :query, "部門" %>
+    <%= form.text_field :query, placeholder: "W00", value: params[:query] %>
+    <%= form.submit "検索" %>
+  <% end %>
+
+  <button onclick="location.href='<%= department_index_path %>'">一覧画面</button>
+</div>
+
+<hr>
+
+<% form_url = @record_found ? department_update_path(@xxm_bumon) : department_create_path %>
+<% form_method = @record_found ? :patch : :post %>
+
+<%= form_with model: @xxm_bumon, url: form_url, method: form_method, local: true, html: { id: "register_form" }  do |form| %>
+  <%= form.hidden_field :BumonCD, value: @xxm_bumon.BumonCD || params[:query] %>
+  <div>
+    <%= form.label :BumonName, "部門名" %>
+    <%= form.text_field :BumonName, disabled: true %>
+  </div>
+<% end %>
+
+
+<div>
+  <%= button_tag "登録", type: "button", onclick: "handleFormAction('submit')" %>
+  <%= button_tag "削除", type: "button", onclick: "handleFormAction('delete')" %>
+  <%= button_tag "取消", type: "button", onclick: "handleFormAction('cancel')" %>
+  <button type="button" onclick="location.href='<%= menu_path %>'">閉じる</button>
+</div>
+
+<script>
+  let isFormEnabled = false;
+
+  function handleFormAction(action) {
+    const form = document.getElementById("register_form");
+
+    if (!isFormEnabled) {
+      // 最初のクリック：フォームの入力を有効にする（ただしCSRFトークンは除く）
+      form.querySelectorAll("input, select").forEach(el => {
+        if (el.name !== "authenticity_token") {
+          el.disabled = false;
+        }
+      });
+      isFormEnabled = true;
+      alert("フォームが編集可能になりました。もう一度押すと処理が実行されます。");
+    } else {
+      // 2回目クリック：アクションごとの処理
+      switch(action) {
+        case 'submit':
+          form.submit(); // 通常の送信（登録）
+          lockForm(form);
+          break;
+
+        case 'delete':
+          const queryInput = document.querySelector('input[name="query"]');
+          const userId = queryInput ? queryInput.value.trim() : "";
+
+          if (!userId) {
+            alert("部門を入力してください！");
+            return;
+          }
+
+          if (confirm("本当に削除しますか？")) {
+            lockForm(form);
+            // 削除用URLにリダイレクト
+            window.location.href = `/employee_taco_masters/destroy?query=${encodeURIComponent(userId)}`;
+          }
+          break;
+
+        case 'cancel':
+          clearForm(form);
+          lockForm(form);
+          isFormEnabled = false; // 入力ロック状態に戻す
+          break;
+      }
+    }
+  }
+
+  function clearForm(form) {
+    form.querySelectorAll("input, select").forEach(el => {
+      if (el.tagName === "SELECT") {
+        el.selectedIndex = 0;
+      } else if (el.type === "checkbox" || el.type === "radio") {
+        el.checked = false;
+      } else {
+        el.value = "";
+      }
+    });
+    alert("フォームの内容をクリアしました！");
+  }
+
+  function lockForm(form) {
+    form.querySelectorAll("input, select").forEach(el => {
+      if (el.name !== "authenticity_token") {
+        el.disabled = true;
+      }
+    });
+    isFormEnabled = false;
+  }
+</script>

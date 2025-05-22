@@ -1,2 +1,80 @@
-<h1>TravelRequests#new</h1>
-<p>Find me in app/views/travel_requests/new.html.erb</p>
+<div>
+  <%= form_with url: search_path, method: :get, local: true do |form| %>
+    <%= form.label :query, "伝票No." %>
+    <%= form.text_field :query, placeholder: "000000000"%>
+    <%= form.submit "検索" %>
+  <% end %>
+
+  <button onclick="location.href='<%= travel_request_index_path %>'">一覧画面</button>
+</div>
+
+<hr>
+★ （SIT）社員入力
+<%= form_with model: @travel_request, url: travel_requests_path, local: true do |form| %>
+
+  <div>
+    <%= form.label :RyohiTName, "旅費手配名" %>
+    <%= form.text_field :UserName, placeholder: "(本田)東京5月8日~" %>  ←名前 行先 出発日で入力してください（例 : (本田) 東京 5月8日）
+  </div>
+
+  <div>
+    <%= form.label :RyohiDeatil, "旅費依頼内容" %>
+    <%= form.text_field :text %>
+  </div>
+
+  <div>
+    <%= form.label :BumonID, "部門コード" %>
+    <%= form.select :BumonID, options_for_select([["社員", "1"], ["タコ", "2"]], "1"), {prompt: "選択してください"}%>
+  </div>
+
+  <div>
+    <%= form.label :UserID , "申請者" %>
+    <%= form.text_field :UserID %>
+  </div>
+  
+  <div>
+    <%= form.label :Sakuban , "作#" %>
+    <%= form.text_field :Sakuban %>
+  </div>
+
+  <div>
+    <%= form.label :KakuteiFlag, "確定" %>
+    <%= form.select :KakuteiFlag, options_for_select([["社員", "1"], ["タコ", "2"]], "1"), {prompt: "選択してください"} %>
+  </div>
+
+  <div>
+    <%= form.label :KakuteiFlag , "確定日" %>
+    <label>//<span id="user_name_display"></span></label>
+  </div>
+
+<hr>
+★ タコ入力
+  <div>
+    <%= form.label :TehaiiDetail, "タコ手配内容" %>
+    <%= form.text_field :TehaiiDetail %>
+  </div>
+
+  <div>
+    <%= form.label :Fare, "金額" %>
+    <%= form.text_field :Fare %>
+  </div>
+
+  <div>
+    <%= form.label :tax, "内消費税" %>
+    <%= form.text_field :tax %>
+  </div>
+
+  <div>
+    <%= form.label :TKakuteiFlag , "確定" %>
+    <%= form.select :TKakuteiFlag, options_for_select([["社員", "1"], ["タコ", "2"]], "1"), {prompt: "選択してください"} %>
+  </div>
+
+<% end %>
+
+
+<div>
+  <%= button_tag "登録", type: "button", onclick: "handleFormAction('submit')" %>
+  <%= button_tag "削除", type: "button", onclick: "handleFormAction('delete')" %>
+  <%= button_tag "取消", type: "button", onclick: "handleFormAction('cancel')" %>
+  <button type="button" onclick="location.href='<%= travel_request_index_path %>'">閉じる</button>
+</div>

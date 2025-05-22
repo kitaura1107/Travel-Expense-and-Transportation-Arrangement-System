@@ -1,2 +1,47 @@
-<h1>EmployeeTacoMasters#index</h1>
-<p>Find me in app/views/employee_taco_masters/index.html.erb</p>
+<style>
+  table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+
+  th {
+    border: 1px solid black;
+    padding: 8px;
+    text-align: center;
+  }
+
+  td {
+    border-left: 1px solid black;
+    border-right: 1px solid black;
+    padding: 8px;
+    text-align: center;
+  }
+
+  /* ← ここがポイント！thとtdの境目に横線入れる */
+  thead {
+    border-bottom: 2px solid black;
+  }
+
+  tr:last-child td {
+    border-bottom: 1px solid black; /* 最後の行だけ下線入れたいときに */
+  }
+</style>
+
+<table>
+  <tr>
+    <th>社員・タコ</th>
+    <th>ユーザー区分</th>
+    <th>ユーザー名</th>  
+    <th>メールアドレス</th>
+  </tr>
+  <% @xx_user_ids.each do |user| %>
+    <tr>
+      <td><%= user.UserID %></td>
+      <td><%= user.UserKubun %></td>
+      <td><%= user.UserName %></td>  
+      <td><%= user.MailAdress %></td>
+    </tr>
+  <% end %>
+</table>
+
+<button type="button" onclick="location.href='<%= employee_taco_masters_path %>'">閉じる</button>

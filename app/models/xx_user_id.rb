@@ -1,4 +1,6 @@
 class XxUserId < ApplicationRecord
+    acts_as_paranoid # 論理削除を有効にする
+
 
     #UserIDを主キーにする
     self.primary_key = 'UserID'
