@@ -32,6 +32,22 @@
 <script>
   let isFormEnabled = false;
 
+  // ページ読み込み後に検索フォームのqueryを登録フォームのBumonCDに反映させる処理
+  document.addEventListener("DOMContentLoaded", () => {
+    const searchInput = document.querySelector('input[name="query"]');
+    const bumonCdInput = document.querySelector('input[name="xxm_bumon[BumonCD]"]');
+
+    if (searchInput && bumonCdInput) {
+      // 初期値をコピー
+      bumonCdInput.value = searchInput.value;
+
+      // 入力変更時に同期
+      searchInput.addEventListener("input", () => {
+        bumonCdInput.value = searchInput.value;
+      });
+    }
+  });
+
   function handleFormAction(action) {
     const form = document.getElementById("register_form");
 

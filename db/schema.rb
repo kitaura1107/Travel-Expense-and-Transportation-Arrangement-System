@@ -35,15 +35,14 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_22_041117) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "xx_user_ids", force: :cascade do |t|
-    t.string "UserID", limit: 4
+  create_table "xx_user_ids", primary_key: "UserID", id: { type: :string, limit: 4 }, force: :cascade do |t|
     t.datetime "InsTime", null: false
     t.string "InsUserID", limit: 4
     t.string "InsPGID", limit: 7
     t.datetime "UpdTime", null: false
     t.string "UpdUserID", limit: 4
     t.string "UpdPGID", limit: 8
-    t.integer "UpdCount", default: 1
+    t.integer "UpdCount"
     t.string "UserName", limit: 40
     t.string "UserKubun", limit: 1, default: "1"
     t.string "MailAdress", limit: 50, null: false
@@ -61,7 +60,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_22_041117) do
     t.datetime "InsTime", null: false
     t.string "InsUserID", limit: 4
     t.string "InsPGID", limit: 7
-    t.datetime "UpdTime", null: false
+    t.datetime "UpdTime"
     t.string "UpdUserID", limit: 4
     t.string "UpdPGID", limit: 8
     t.integer "UpdCount", default: 1

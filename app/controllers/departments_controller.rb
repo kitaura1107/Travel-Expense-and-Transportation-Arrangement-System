@@ -28,7 +28,7 @@ class DepartmentsController < ApplicationController
   end
   
   def update
-    @department_update = XxmBumon.find_by(UserID: params[:xx_user_id][:UserID])
+    @department_update = XxmBumon.find_by(BumonCD: params[:xxm_bumon][:BumonCD])
     if @department_update
         @department_update.assign_attributes(department_create_params)
         @department_update.UpdCount += 1
