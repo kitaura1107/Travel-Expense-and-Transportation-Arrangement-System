@@ -1,7 +1,7 @@
 <div>
   <%= form_with url: search_path, method: :get, local: true do |form| %>
     <%= form.label :query, "社員No.・タコ" %>
-    <%= form.text_field :query, placeholder: "0000", value: params[:query], disabled: @form_flag %>
+    <%= form.text_field :query, placeholder: "0000", value: params[:query], autofocus: true, disabled: @form_flag %>
     <%= form.submit "検索" %>
   <% end %>
 
@@ -37,7 +37,7 @@
   </div>
   <div>
     <%= form.submit "登録" %>
-    <button type="button" onclick="location.href='<%= employee_taco_masters_path %>'">取消</button>
+    <button type="button" onclick="location.href='<%= employee_taco_masters_path(query: params[:query]) %>'">取消</button>
   </div>
 <% end %>
 

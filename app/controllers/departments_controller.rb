@@ -12,6 +12,7 @@ class DepartmentsController < ApplicationController
     @xxm_bumon = XxmBumon.find_by(BumonCD: keyword)
     @record_found = @xxm_bumon.present?
     @xxm_bumon ||= XxmBumon.new
+    @form_flag = keyword.present?
     render :new
   end
 
@@ -21,7 +22,7 @@ class DepartmentsController < ApplicationController
     @department_save.InsPGID = "C01M002"
     @department_save.UpdCount = 1
     if @department_save.save
-       redirect_to department_index_path
+       redirect_to departments_path
     else
        render :new
     end
@@ -35,7 +36,7 @@ class DepartmentsController < ApplicationController
         @department_update.UpdUserID = current_xx_user_id&.UserID || "0000"
         @department_update.UpdPGID = "C01M002"
       if @department_update.save
-        redirect_to department_index_path notice: "更新しました"
+        redirect_to departments_path notice: "更新しました"
       else
         flash.now[:alert] = "更新できませんでした"
         render :new  
@@ -44,6 +45,13 @@ class DepartmentsController < ApplicationController
   end
 
   def destroy
+    department_delete = XxmBumon.find_by(BumonCD: params[:id])
+    if department_delete
+      department_delete.destroy
+      redirect_to departments_path notice: "削除しました"
+    else
+      redirect_to departments_path alert: "削除できませんでした"
+    end
   end
 
   private

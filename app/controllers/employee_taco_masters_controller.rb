@@ -23,7 +23,7 @@ class EmployeeTacoMastersController < ApplicationController
     @employee_save.InsPGID = "C01M001"
     @employee_save.UpdCount = 1
     if @employee_save.save
-       redirect_to employee_index_path
+       redirect_to employee_taco_masters_path
     else
        render :new
     end
@@ -37,7 +37,7 @@ class EmployeeTacoMastersController < ApplicationController
       @employee_update.UpdUserID = current_xx_user_id&.UserID || "0000"
       @employee_update.UpdPGID = "C01M001"
       if @employee_update.save
-        redirect_to employee_index_path notice: "更新しました"
+        redirect_to employee_taco_masters_path notice: "更新しました"
       else
         flash.now[:alert] = "更新できませんでした"
         render :new
@@ -49,9 +49,9 @@ class EmployeeTacoMastersController < ApplicationController
     employee_delete = XxUserId.find_by(UserID: params[:id])
     if employee_delete
       employee_delete.destroy
-      redirect_to employee_index_path notice: "削除しました"
+      redirect_to employee_taco_masters_path notice: "削除しました"
     else
-      redirect_to employee_index_path alert: "削除できませんでした"
+      redirect_to employee_taco_masters_path alert: "削除できませんでした"
     end
   end
 

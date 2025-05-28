@@ -34,7 +34,7 @@ Rails.application.routes.draw do
   get 'departments/search', to: 'departments#search', as: 'department_search'
   post 'departments/create', to: 'departments#create', as: 'department_create' 
   patch 'departments/update', to: 'departments#update', as: 'department_update' 
-  get 'departments/destroy', to: 'departments#destroy', as: 'department_delete'
+  delete 'departments/:id', to: 'departments#destroy', as: 'department_delete'
 
   # 集計帳票画面ルート
   get 'reports/index', to: 'reports#index', as: 'reports'
