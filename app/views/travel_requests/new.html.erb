@@ -1,12 +1,15 @@
 <div>
-  <%= form_with url: search_path, method: :get, local: true do |form| %>
+  <%= form_with url: travel_request_search_path, method: :get, local: true do |form| %>
     <%= form.label :query, "伝票No." %>
-    <%= form.text_field :query, placeholder: "000000000"%>
+    <%= form.text_field :query, placeholder: "000000000", value: (@xx_ryohi_t&.RefNO.presence || params[:query]), autofocus: true %>
     <%= form.submit "検索" %>
   <% end %>
 
   <button onclick="location.href='<%= travel_request_index_path %>'">一覧画面</button>
 </div>
+
+<% form_url = @record_found ? employee_update_path(@xx_user_id) : employee_create_path %>
+<% form_method = @record_found ? :patch : :post %>
 
 <hr>
 ★ （SIT）社員入力
@@ -14,38 +17,39 @@
 
   <div>
     <%= form.label :RyohiTName, "旅費手配名" %>
-    <%= form.text_field :UserName, placeholder: "(本田)東京5月8日~" %>  ←名前 行先 出発日で入力してください（例 : (本田) 東京 5月8日）
+    <%= form.text_field :UseRyohiTNamerName, placeholder: "(本田)東京5月8日~" %>  ←名前 行先 出発日で入力してください（例 : (本田) 東京 5月8日）
   </div>
 
   <div>
     <%= form.label :RyohiDeatil, "旅費依頼内容" %>
-    <%= form.text_field :text %>
+    <%= form.text_field :RyohiDeatil, style: "width: 500px; height: 100px;" %>
   </div>
 
   <div>
-    <%= form.label :BumonID, "部門コード" %>
-    <%= form.select :BumonID, options_for_select([["社員", "1"], ["タコ", "2"]], "1"), {prompt: "選択してください"}%>
+    <%= form.label :BumonCD, "部門コード" %>
+    <%= form.select :BumonCD, options_for_select(@bumon_options, selected: @travel_request.BumonID), prompt: "選択してください" %>
   </div>
 
   <div>
     <%= form.label :UserID , "申請者" %>
-    <%= form.text_field :UserID %>
+    <%= form.text_field :UserID, id: "user_id_input", autofocus: true, autocomplete: "UserID"  %> <label><span id="user_name_display"></span></label>
   </div>
   
   <div>
     <%= form.label :Sakuban , "作#" %>
-    <%= form.text_field :Sakuban %>
+    <%= form.text_field :Sakuban, placeholder: "NNN-NN-NNNN-NNNN" %>
   </div>
 
   <div>
     <%= form.label :KakuteiFlag, "確定" %>
-    <%= form.select :KakuteiFlag, options_for_select([["社員", "1"], ["タコ", "2"]], "1"), {prompt: "選択してください"} %>
+    <%= form.select :KakuteiFlag, options_for_select([["Y", "0"], ["N", "1"]], "1"), {}, { id: "kakutei_flag" } %>
   </div>
 
-  <div>
-    <%= form.label :KakuteiFlag , "確定日" %>
-    <label>//<span id="user_name_display"></span></label>
+  <div id="kakutei_date_field" style="display: none;">
+    <%= form.label :KakuteiDate, "確定日" %>
+    <%= form.date_field :KakuteiDate, id: "kakutei_date_input" %>
   </div>
+
 
 <hr>
 ★ タコ入力
@@ -66,7 +70,7 @@
 
   <div>
     <%= form.label :TKakuteiFlag , "確定" %>
-    <%= form.select :TKakuteiFlag, options_for_select([["社員", "1"], ["タコ", "2"]], "1"), {prompt: "選択してください"} %>
+    <%= form.select :TKakuteiFlag, options_for_select([["社員", "1"], ["タコ", "2"]]), {prompt: "選択してください"} %>
   </div>
 
 <% end %>
@@ -76,5 +80,40 @@
   <%= button_tag "登録", type: "button", onclick: "handleFormAction('submit')" %>
   <%= button_tag "削除", type: "button", onclick: "handleFormAction('delete')" %>
   <%= button_tag "取消", type: "button", onclick: "handleFormAction('cancel')" %>
-  <button type="button" onclick="location.href='<%= travel_request_index_path %>'">閉じる</button>
+  <button type="button" onclick="location.href='<%= menu_path %>'">閉じる</button>
 </div>
+
+
+<%= javascript_include_tag "sessions", type: "module" %>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const flagSelect = document.getElementById("kakutei_flag");
+    const dateFieldWrapper = document.getElementById("kakutei_date_field");
+    const dateInput = document.getElementById("kakutei_date_input");
+
+    function formatDateToYMD(date) {
+      const yyyy = date.getFullYear();
+      const mm = String(date.getMonth() + 1).padStart(2, '0');
+      const dd = String(date.getDate()).padStart(2, '0');
+      return `${yyyy}-${mm}-${dd}`; // HTMLのdate型ではこれが必要
+    }
+
+    function toggleDateField() {
+      if (flagSelect.value === "0") {
+        dateFieldWrapper.style.display = "block";
+        if (!dateInput.value) {
+          const today = new Date();
+          dateInput.value = formatDateToYMD(today);
+        }
+      } else {
+        dateFieldWrapper.style.display = "none";
+        dateInput.value = ""; // リセットしたい場合
+      }
+    }
+
+    flagSelect.addEventListener("change", toggleDateField);
+    toggleDateField(); // 初期状態反映
+  });
+
+</script>

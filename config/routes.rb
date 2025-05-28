@@ -17,6 +17,7 @@ Rails.application.routes.draw do
   # 旅費手配画面ルート
   get 'travel_requests/new', to: 'travel_requests#new', as: 'travel_requests'
   get 'travel_requests/index', to: 'travel_requests#index', as: 'travel_request_index'
+  get 'travel_requests/search', to: 'travel_requests#search', as: 'travel_request_search'
 
   # 社員・タコマスタメンテ画面ルート
   get 'employee_taco_masters/new',to: 'employee_taco_masters#new', as: 'employee_taco_masters'

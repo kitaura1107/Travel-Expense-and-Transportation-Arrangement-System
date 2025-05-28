@@ -28,7 +28,7 @@
 
   <div>
     <%= form.label :UserKubun, "ユーザー区分" %>
-    <%= form.select :UserKubun, options_for_select([["社員", "1"], ["タコ", "2"]], "1"), {prompt: "選択してください"}, {disabled: !@form_flag} %>
+    <%= form.select :UserKubun, options_for_select([["社員", "1"], ["タコ", "2"]]), {}, {disabled: !@form_flag} %>
   </div>
 
   <div>
