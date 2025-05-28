@@ -11,7 +11,8 @@ class EmployeeTacoMastersController < ApplicationController
     keyword = params[:query].to_s.strip
     @xx_user_id = XxUserId.find_by(UserID: keyword)
     @record_found = @xx_user_id.present?
-    @xx_user_id ||= XxUserId.new
+    @xx_user_id ||= XxUserId.new(UserID: keyword)
+    @form_flag = keyword.present?
     render :new
   end
 
@@ -45,7 +46,7 @@ class EmployeeTacoMastersController < ApplicationController
   end
 
   def destroy
-    employee_delete = XxUserId.find_by(UserID: params[:query])
+    employee_delete = XxUserId.find_by(UserID: params[:id])
     if employee_delete
       employee_delete.destroy
       redirect_to employee_index_path notice: "削除しました"
@@ -56,6 +57,6 @@ class EmployeeTacoMastersController < ApplicationController
 
   private
   def employee_create_params
-    params.require(:xx_user_id).permit(:UserName, :password, :UserKubun, :MailAdress)
+    params.require(:xx_user_id).permit(:UserID, :UserName, :password, :UserKubun, :MailAdress)
   end
 end

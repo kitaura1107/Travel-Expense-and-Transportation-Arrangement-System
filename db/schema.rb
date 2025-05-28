@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_05_22_041117) do
+ActiveRecord::Schema[7.1].define(version: 2025_05_28_045746) do
   create_table "xx_ryohi_ts", force: :cascade do |t|
     t.string "RefNO", limit: 9
     t.datetime "InsTime", null: false
@@ -51,6 +51,8 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_22_041117) do
     t.string "encrypted_password", default: "", null: false
     t.datetime "remember_created_at"
     t.datetime "deleted_at"
+    t.string "reset_password_token"
+    t.datetime "reset_password_sent_at"
     t.index ["MailAdress"], name: "index_xx_user_ids_on_MailAdress", unique: true
     t.index ["deleted_at"], name: "index_xx_user_ids_on_deleted_at"
   end

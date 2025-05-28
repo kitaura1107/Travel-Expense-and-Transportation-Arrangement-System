@@ -22,7 +22,7 @@ Rails.application.routes.draw do
   get 'employee_taco_masters/new',to: 'employee_taco_masters#new', as: 'employee_taco_masters'
   get 'employee_taco_masters/index', to: 'employee_taco_masters#index', as: 'employee_index'
   post 'employee_taco_masters/create', to: 'employee_taco_masters#create', as: 'employee_create'
-  get 'employee_taco_masters/destroy', to: 'employee_taco_masters#destroy', as: 'employee_delete'
+  delete 'employee_taco_masters/:id', to: 'employee_taco_masters#destroy', as: 'employee_delete'
   patch 'employee_taco_masters/update', to: 'employee_taco_masters#update', as: 'employee_update'
   # 社員・タコマスタメンテ検索のルート
   get 'employee_tako_masters/search', to: 'employee_taco_masters#search', as: 'search'

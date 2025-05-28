@@ -1,7 +1,7 @@
 <div>
   <%= form_with url: search_path, method: :get, local: true do |form| %>
     <%= form.label :query, "社員No.・タコ" %>
-    <%= form.text_field :query, placeholder: "0000", value: params[:query] %>
+    <%= form.text_field :query, placeholder: "0000", value: params[:query], disabled: @form_flag %>
     <%= form.submit "検索" %>
   <% end %>
 
@@ -13,103 +13,40 @@
 <% form_url = @record_found ? employee_update_path(@xx_user_id) : employee_create_path %>
 <% form_method = @record_found ? :patch : :post %>
 
-<%= form_with model: @xx_user_id, url: form_url, method: form_method, local: true, html: { id: "register_form" } do |form| %>
-  <%= form.hidden_field :UserID %>
+<%= form_with model: @xx_user_id, url: form_url, method: form_method, local: true do |form| %>
+  <%= form.hidden_field :UserID, value: (@record_found ? @xx_user_id.UserID : params[:query]) %>
+
   <div>
     <%= form.label :UserName, "ユーザー名" %>
-    <%= form.text_field :UserName, disabled: true %>
+    <%= form.text_field :UserName, disabled: !@form_flag %>
   </div>
 
   <div>
     <%= form.label :password, "パスワード" %>
-    <%= form.text_field :password, placeholder: "変更する場合のみ入力", disabled: true %>
+    <%= form.text_field :password, placeholder: "変更する場合のみ入力", disabled: !@form_flag %>
   </div>
 
   <div>
     <%= form.label :UserKubun, "ユーザー区分" %>
-    <%= form.select :UserKubun, options_for_select([["社員", "1"], ["タコ", "2"]], "1"), {prompt: "選択してください"}, {disabled: true} %>
+    <%= form.select :UserKubun, options_for_select([["社員", "1"], ["タコ", "2"]], "1"), {prompt: "選択してください"}, {disabled: !@form_flag} %>
   </div>
 
   <div>
     <%= form.label :MailAdress , "メールアドレス" %>
-    <%= form.text_field :MailAdress, disabled: true %>
+    <%= form.text_field :MailAdress, disabled: !@form_flag %>
+  </div>
+  <div>
+    <%= form.submit "登録" %>
+    <button type="button" onclick="location.href='<%= employee_taco_masters_path %>'">取消</button>
   </div>
 <% end %>
 
 <div>
-  <%= button_tag "登録", type: "button", onclick: "handleFormAction('submit')" %>
-  <%= button_tag "削除", type: "button", onclick: "handleFormAction('delete')" %>
-  <%= button_tag "取消", type: "button", onclick: "handleFormAction('cancel')" %>
+  <% if @xx_user_id.UserID.present? %>
+    <%= button_to "削除", employee_delete_path(@xx_user_id.UserID), method: :delete, data: { confirm: "本当に削除しますか？" } %>
+  <% else %>
+    <%= button_tag "削除", type: "button", onclick: "return false;" %>
+  <% end %>
   <button type="button" onclick="location.href='<%= menu_path %>'">閉じる</button>
 </div>
 
-<script>
-  let isFormEnabled = false;
-
-  function handleFormAction(action) {
-    const form = document.getElementById("register_form");
-
-    if (!isFormEnabled) {
-      // 最初のクリック：フォームの入力を有効にする（ただしCSRFトークンは除く）
-      form.querySelectorAll("input, select").forEach(el => {
-        if (el.name !== "authenticity_token") {
-          el.disabled = false;
-        }
-      });
-      isFormEnabled = true;
-      alert("フォームが編集可能になりました。もう一度押すと処理が実行されます。");
-    } else {
-      // 2回目クリック：アクションごとの処理
-      switch(action) {
-        case 'submit':
-          form.submit(); // 通常の送信（登録）
-          lockForm(form);
-          break;
-
-        case 'delete':
-          const queryInput = document.querySelector('input[name="query"]');
-          const userId = queryInput ? queryInput.value.trim() : "";
-
-          if (!userId) {
-            alert("社員No.・タコを入力してください！");
-            return;
-          }
-
-          if (confirm("本当に削除しますか？")) {
-            lockForm(form);
-            // 削除用URLにリダイレクト
-            window.location.href = `/employee_taco_masters/destroy?query=${encodeURIComponent(userId)}`;
-          }
-          break;
-
-        case 'cancel':
-          clearForm(form);
-          lockForm(form);
-          isFormEnabled = false; // 入力ロック状態に戻す
-          break;
-      }
-    }
-  }
-
-  function clearForm(form) {
-    form.querySelectorAll("input, select").forEach(el => {
-      if (el.tagName === "SELECT") {
-        el.selectedIndex = 0;
-      } else if (el.type === "checkbox" || el.type === "radio") {
-        el.checked = false;
-      } else {
-        el.value = "";
-      }
-    });
-    alert("フォームの内容をクリアしました！");
-  }
-
-  function lockForm(form) {
-    form.querySelectorAll("input, select").forEach(el => {
-      if (el.name !== "authenticity_token") {
-        el.disabled = true;
-      }
-    });
-    isFormEnabled = false;
-  }
-</script>

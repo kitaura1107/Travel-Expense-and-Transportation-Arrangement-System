@@ -6,8 +6,8 @@ class XxUserId < ApplicationRecord
     self.primary_key = 'UserID'
     
 
-    #UserIDの初期値を設定する
-    before_create :set_user_id
+    # #UserIDの初期値を設定する
+    # before_create :set_user_id
     
     # 新規登録時のInsTimeを設定する
     before_create :set_ins_time
@@ -44,12 +44,13 @@ class XxUserId < ApplicationRecord
     end
 
     private
-    # 0000から始まる4桁のUserIDを設定する
-    # 0001, 0002, 0003, ...と続く
-    def set_user_id
-        max_id = XxUserId.maximum("CAST(UserID AS UNSIGNED)")|| 0
-        self.UserID = (max_id + 1).to_s.rjust(4, "0")
-    end
+    # # 0000から始まる4桁のUserIDを設定する
+    # # 0001, 0002, 0003, ...と続く
+    # def set_user_id
+    #     max_id = XxUserId.maximum("CAST(UserID AS UNSIGNED)")|| 0
+    #     self.UserID = (max_id + 1).to_s.rjust(4, "0")
+    # end
+    
     # InsTimeを現在時刻に設定する
     # ただし、InsTimeがnilの場合のみ
     def set_ins_time
