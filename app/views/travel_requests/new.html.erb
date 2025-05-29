@@ -8,86 +8,83 @@
   <button onclick="location.href='<%= travel_request_index_path %>'">一覧画面</button>
 </div>
 
-<% form_url = @record_found ? employee_update_path(@xx_user_id) : employee_create_path %>
+<% form_url = @record_found ? travel_request_update_path(@xx_user_id) : travel_request_create_path %>
 <% form_method = @record_found ? :patch : :post %>
 
 <hr>
 ★ （SIT）社員入力
-<%= form_with model: @travel_request, url: travel_requests_path, local: true do |form| %>
-
+<%= form_with model: @xx_ryohi_t, url: form_url, method: form_method, local: true do |form| %>
+  <%= form.hidden_field :RefNO, value: @xx_ryohi_t.RefNO || params[:query] %>
   <div>
     <%= form.label :RyohiTName, "旅費手配名" %>
-    <%= form.text_field :UseRyohiTNamerName, placeholder: "(本田)東京5月8日~" %>  ←名前 行先 出発日で入力してください（例 : (本田) 東京 5月8日）
+    <%= form.text_field :RyohiTName, placeholder: "(本田)東京5月8日~", readonly: (@user_type != 1) %>  ←名前 行先 出発日で入力してください（例 : (本田) 東京 5月8日）
   </div>
 
   <div>
     <%= form.label :RyohiDeatil, "旅費依頼内容" %>
-    <%= form.text_field :RyohiDeatil, style: "width: 500px; height: 100px;" %>
+    <%= form.text_field :RyohiDeatil, style: "width: 500px; height: 100px;", readonly: (@user_type != 1) %>
   </div>
 
   <div>
     <%= form.label :BumonCD, "部門コード" %>
-    <%= form.select :BumonCD, options_for_select(@bumon_options, selected: @travel_request.BumonID), prompt: "選択してください" %>
+    <%= form.select :BumonCD, options_for_select(@bumon_options, selected:  @xx_ryohi_t.BumonID),  readonly: (@user_type != 1) %>
   </div>
 
   <div>
-    <%= form.label :UserID , "申請者" %>
-    <%= form.text_field :UserID, id: "user_id_input", autofocus: true, autocomplete: "UserID"  %> <label><span id="user_name_display"></span></label>
+    <%= form.label :UserID , "申請者", for: "user_id_input" %>
+    <%= form.text_field :UserID, id: "user_id_input", autofocus: true, autocomplete: "UserID", readonly: (@user_type != 1) %> <label><span id="user_name_display"></span></label>
   </div>
   
   <div>
     <%= form.label :Sakuban , "作#" %>
-    <%= form.text_field :Sakuban, placeholder: "NNN-NN-NNNN-NNNN" %>
+    <%= form.text_field :Sakuban, pattern: "\\d{3}-\\d{2}-\\d{4}-\\d{4}", placeholder: "NNN-NN-NNNN-NNNN", readonly: (@user_type != 1) %>
   </div>
 
   <div>
-    <%= form.label :KakuteiFlag, "確定" %>
-    <%= form.select :KakuteiFlag, options_for_select([["Y", "0"], ["N", "1"]], "1"), {}, { id: "kakutei_flag" } %>
+    <%= form.label :KakuteiFlag, "確定", for: "kakutei_flag"  %>
+    <%= form.select :KakuteiFlag, options_for_select([["Y", "0"], ["N", "1"]],  @xx_ryohi_t.KakuteiFlag.nil? ? "1" : @xx_ryohi_t.KakuteiFlag.to_s), {}, { id: "kakutei_flag", disabled: (@user_type != 1) } %>
   </div>
 
   <div id="kakutei_date_field" style="display: none;">
-    <%= form.label :KakuteiDate, "確定日" %>
-    <%= form.date_field :KakuteiDate, id: "kakutei_date_input" %>
+    <%= form.label :KakuteiDate, "確定日", for: "kakutei_date_input" %>
+    <%= form.text_field :KakuteiDate, id: "kakutei_date_input", readonly: true %>
   </div>
-
 
 <hr>
 ★ タコ入力
   <div>
     <%= form.label :TehaiiDetail, "タコ手配内容" %>
-    <%= form.text_field :TehaiiDetail %>
+    <%= form.text_field :TehaiiDetail, readonly: (@user_type != 2) %>
   </div>
 
   <div>
     <%= form.label :Fare, "金額" %>
-    <%= form.text_field :Fare %>
+    <%= form.text_field :Fare, value: (@xx_ryohi_t.Fare == -1 ? "返答をお待ちください" : @xx_ryohi_t.Fare), readonly: (@user_type != 2) %>
   </div>
 
   <div>
     <%= form.label :tax, "内消費税" %>
-    <%= form.text_field :tax %>
+    <%= form.text_field :tax, value: (@xx_ryohi_t.Fare == -1 ? "返答をお待ちください" : @xx_ryohi_t.Fare), readonly: (@user_type != 2) %>
   </div>
 
   <div>
     <%= form.label :TKakuteiFlag , "確定" %>
-    <%= form.select :TKakuteiFlag, options_for_select([["社員", "1"], ["タコ", "2"]]), {prompt: "選択してください"} %>
+    <%= form.select :TKakuteiFlag, options_for_select([["Y", "0"], ["N", "1"]], "1"), {}, { disabled: (@user_type != 2) } %>
   </div>
-
+  <%= form.submit "登録" %>
+    <button type="button" onclick="location.href='<%= travel_requests_path(query: params[:query]) %>'">取消</button>
 <% end %>
 
 
 <div>
-  <%= button_tag "登録", type: "button", onclick: "handleFormAction('submit')" %>
-  <%= button_tag "削除", type: "button", onclick: "handleFormAction('delete')" %>
-  <%= button_tag "取消", type: "button", onclick: "handleFormAction('cancel')" %>
   <button type="button" onclick="location.href='<%= menu_path %>'">閉じる</button>
 </div>
 
 
 <%= javascript_include_tag "sessions", type: "module" %>
 
-<script>
-  document.addEventListener("DOMContentLoaded", function () {
+<script type="module">
+  document.addEventListener("turbo:load", function () {
     const flagSelect = document.getElementById("kakutei_flag");
     const dateFieldWrapper = document.getElementById("kakutei_date_field");
     const dateInput = document.getElementById("kakutei_date_input");
@@ -96,24 +93,23 @@
       const yyyy = date.getFullYear();
       const mm = String(date.getMonth() + 1).padStart(2, '0');
       const dd = String(date.getDate()).padStart(2, '0');
-      return `${yyyy}-${mm}-${dd}`; // HTMLのdate型ではこれが必要
+      return `${yyyy}-${mm}-${dd}`;
     }
 
     function toggleDateField() {
       if (flagSelect.value === "0") {
         dateFieldWrapper.style.display = "block";
-        if (!dateInput.value) {
-          const today = new Date();
-          dateInput.value = formatDateToYMD(today);
-        }
+        const today = new Date();
+        dateInput.value = formatDateToYMD(today);
       } else {
         dateFieldWrapper.style.display = "none";
-        dateInput.value = ""; // リセットしたい場合
+        dateInput.value = "";
       }
     }
 
-    flagSelect.addEventListener("change", toggleDateField);
-    toggleDateField(); // 初期状態反映
+    if (flagSelect) {
+      flagSelect.addEventListener("change", toggleDateField);
+      toggleDateField(); // 初期表示のために実行！
+    }
   });
-
 </script>

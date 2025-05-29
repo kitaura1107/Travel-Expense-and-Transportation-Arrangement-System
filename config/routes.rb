@@ -18,7 +18,10 @@ Rails.application.routes.draw do
   get 'travel_requests/new', to: 'travel_requests#new', as: 'travel_requests'
   get 'travel_requests/index', to: 'travel_requests#index', as: 'travel_request_index'
   get 'travel_requests/search', to: 'travel_requests#search', as: 'travel_request_search'
-
+  post 'travel_requests/create', to: 'travel_requests#create', as: 'travel_request_create'
+  patch 'travel_requests/update', to: 'travel_requests#update', as: 'travel_request_update'
+  delete 'travel_requests/:id', to: 'travel_requests#destroy', as: 'travel_request_delete'
+  
   # 社員・タコマスタメンテ画面ルート
   get 'employee_taco_masters/new',to: 'employee_taco_masters#new', as: 'employee_taco_masters'
   get 'employee_taco_masters/index', to: 'employee_taco_masters#index', as: 'employee_index'

@@ -1,7 +1,7 @@
 <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
   
   <div class="field">
-    <%= f.label :user_id, "ログインID*" %><%= f.text_field :UserID, id: "user_id_input", autofocus: true, autocomplete: "UserID" %>
+    <%= f.label :user_id, "ログインID*", for: "user_id_input" %><%= f.text_field :UserID, id: "user_id_input", autofocus: true, autocomplete: "UserID" %>
 
 
     <div class="field">

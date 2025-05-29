@@ -1,2 +1,27 @@
-<h1>TravelRequests#index</h1>
-<p>Find me in app/views/travel_requests/index.html.erb</p>
+<h1>Travel Requests List</h1>
+
+<table border="1" cellspacing="0" cellpadding="5">
+  <thead>
+    <tr>
+      <th>伝票No.</th>
+      <th>申請者</th>
+      <th>旅費手配名</th>
+      <th>金額</th>
+      <th>確定(Y/N)</th>
+      <th>確定日</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @xx_ryohi_t.each do |item| %>
+      <tr>
+        <td><%= item.RefNO %></td>
+        <td><%= item.InsUserID %></td>
+        <td><%= item.RyohiTName %></td>
+        <td><%= number_with_delimiter(item.Fare) %> </td>
+        <td><%= item.KakuteiFlag == "0" ? "Y" : "N" %></td>
+        <td><%= item.KakuteiDate.strftime("%Y-%m-%d") if item.KakuteiDate %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
