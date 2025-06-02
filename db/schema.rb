@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_05_29_083338) do
+ActiveRecord::Schema[7.1].define(version: 2025_06_02_071919) do
   create_table "xx_ryohi_ts", force: :cascade do |t|
     t.string "RefNO", limit: 9
     t.datetime "InsTime", null: false
@@ -30,7 +30,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_29_083338) do
     t.string "TehaiiDetail", limit: 500
     t.integer "Fare", default: 0
     t.integer "tax", default: 0
-    t.string "TKakuteiFlag", limit: 1, default: "0"
+    t.string "TKakuteiFlag", limit: 1, default: "1"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

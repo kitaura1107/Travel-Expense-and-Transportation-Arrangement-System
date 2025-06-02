@@ -5,6 +5,7 @@ class XxUserId < ApplicationRecord
     #UserIDを主キーにする
     self.primary_key = 'UserID'
     
+    has_many :ryohi_ts, class_name: 'XxRyohiT', foreign_key: 'ShinseiID'
 
     # #UserIDの初期値を設定する
     # before_create :set_user_id

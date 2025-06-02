@@ -48,6 +48,7 @@
   <div id="kakutei_date_field" style="display: none;">
     <%= form.label :KakuteiDate, "確定日", for: "kakutei_date_input" %>
     <%= form.text_field :KakuteiDate, id: "kakutei_date_input", readonly: true %>
+    <span id="kakutei_date_display"></span>
   </div>
 
 <hr>
@@ -69,14 +70,20 @@
 
   <div>
     <%= form.label :TKakuteiFlag , "確定" %>
-    <%= form.select :TKakuteiFlag, options_for_select([["Y", "0"], ["N", "1"]], "1"), {}, { disabled: (@user_type != 2) } %>
+    <%= form.select :TKakuteiFlag, options_for_select([["Y", "0"], ["N", "1"]], form.object.TKakuteiFlag.presence || "1"), {}, { disabled: (@user_type != 2) } %>
   </div>
+
   <%= form.submit "登録" %>
     <button type="button" onclick="location.href='<%= travel_requests_path(query: params[:query]) %>'">取消</button>
 <% end %>
 
 
 <div>
+  <% if @xx_ryohi_t.RefNO.present? %>
+    <%= button_to "削除", travel_request_delete_path(@xx_ryohi_t.RefNO), method: :delete, data: { confirm: "本当に削除しますか？" } %>
+  <% else %>
+    <%= button_tag "削除", type: "button", onclick: "return false;" %>
+  <% end %>
   <button type="button" onclick="location.href='<%= menu_path %>'">閉じる</button>
 </div>
 
@@ -85,9 +92,11 @@
 
 <script type="module">
   document.addEventListener("turbo:load", function () {
-    const flagSelect = document.getElementById("kakutei_flag");
+    const flagSelect = document.getElementById("kakutei_flag");       // 社員側
+    const takoFlagSelect = document.querySelector("[name='xx_ryohi_t[TKakuteiFlag]']"); // タコ側
     const dateFieldWrapper = document.getElementById("kakutei_date_field");
     const dateInput = document.getElementById("kakutei_date_input");
+    const dateDisplay = document.getElementById("kakutei_date_display");
 
     function formatDateToYMD(date) {
       const yyyy = date.getFullYear();
@@ -97,19 +106,21 @@
     }
 
     function toggleDateField() {
-      if (flagSelect.value === "0") {
+      if (flagSelect?.value === "0" && takoFlagSelect?.value === "0") {
         dateFieldWrapper.style.display = "block";
-        const today = new Date();
-        dateInput.value = formatDateToYMD(today);
+        const today = formatDateToYMD(new Date());
+        dateInput.value = today;      // サーバに送る日付は今日の日付
       } else {
-        dateFieldWrapper.style.display = "none";
-        dateInput.value = "";
+        dateFieldWrapper.style.display = "block";
+        dateInput.value = "1900-01-01";  // サーバにはダミー日付送信
+        dateDisplay.textContent = "（未確定）";  // 画面には「未確定」と表示
       }
     }
 
-    if (flagSelect) {
+    if (flagSelect && takoFlagSelect) {
       flagSelect.addEventListener("change", toggleDateField);
-      toggleDateField(); // 初期表示のために実行！
+      takoFlagSelect.addEventListener("change", toggleDateField);
+      toggleDateField();
     }
   });
 </script>

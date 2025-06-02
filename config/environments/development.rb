@@ -74,4 +74,11 @@ Rails.application.configure do
   # Raise error when a before_action's only/except options reference missing actions
   config.action_controller.raise_on_missing_callback_actions = true
   config.action_controller.forgery_protection_origin_check = false
+  
+  # Action Mailer configuration
+  config.action_mailer.delivery_method = :letter_opener
+  LetterOpener.configure do |config|
+    config.location = Rails.root.join('tmp', 'letter_opener')
+    config.message_template = :default
+  end
 end

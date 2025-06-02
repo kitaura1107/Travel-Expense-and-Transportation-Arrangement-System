@@ -19,9 +19,13 @@
         <td><%= item.InsUserID %></td>
         <td><%= item.RyohiTName %></td>
         <td><%= number_with_delimiter(item.Fare) %> </td>
-        <td><%= item.KakuteiFlag == "0" ? "Y" : "N" %></td>
-        <td><%= item.KakuteiDate.strftime("%Y-%m-%d") if item.KakuteiDate %></td>
+        <td><%= (item.KakuteiFlag == "0" && item.TKakuteiFlag == "0") ? "Y" : "N" %></td>
+        <td>
+          <%= (item.KakuteiDate && item.KakuteiDate.strftime("%Y-%m-%d") == "1900-01-01") ? "-" : (item.KakuteiDate ? item.KakuteiDate.strftime("%Y-%m-%d") : "-") %>
+        </td>
       </tr>
     <% end %>
   </tbody>
 </table>
+
+ <button type="button" onclick="location.href='<%= travel_requests_path %>'">閉じる</button>

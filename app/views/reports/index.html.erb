@@ -1,2 +1,46 @@
-<h1>Reports#index</h1>
-<p>Find me in app/views/reports/index.html.erb</p>
+<h1>旅費一覧</h1>
+
+<%= form_with url: reports_path, method: :get, local: true do |f| %>
+  <div>
+    <label>確定日</label>
+    <%= f.date_field :start_date, value: params[:start_date], placeholder: "開始日" %> 〜
+    <%= f.date_field :end_date, value: params[:end_date], placeholder: "終了日" %>
+    <%= f.check_box :include_unconfirmed, { checked: params[:include_unconfirmed] == '1' }, '1', '0' %>
+    <%= f.label :include_unconfirmed, "未確定も含む" %>
+    <%= f.submit "検索" %>
+  </div>
+<% end %>
+
+<table border="1" cellspacing="0" cellpadding="5">
+  <thead>
+    <tr>
+      <th>RefNO</th>
+      <th>部門ID</th>
+      <th>申請者名</th>
+      <th>作番</th>
+      <th>金額</th>
+      <th>税額</th>
+      <th>確定日</th>
+      
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @reports.each do |report| %>
+      <tr>
+        <td><%= report.RefNO %></td>
+        <td><%= report.BumonID %></td>
+        <td><%= report.user&.UserName || '不明' %></td>
+        <td><%= report.Sakuban %></td>
+        <td><%= number_to_currency(report.Fare, unit: '¥') %></td>
+        <td><%= number_to_currency(report.tax, unit: '¥') %></td>
+        <td>
+          <%= (report.KakuteiDate && report.KakuteiDate.strftime("%Y-%m-%d") == "1900-01-01") ? "-" : (report.KakuteiDate ? report.KakuteiDate.strftime("%Y-%m-%d") : "-") %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<%= link_to "Excel出力", reports_path(format: :xlsx, start_date: params[:start_date], end_date: params[:end_date], include_unconfirmed: params[:include_unconfirmed]) %>
+<button type="button" onclick="location.href='<%= reports_path %>'">取消</button>
+<button type="button" onclick="location.href='<%= menu_path %>'">閉じる</button>

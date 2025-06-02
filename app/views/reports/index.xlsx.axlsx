@@ -1,0 +1,22 @@
+wb = xlsx_package.workbook
+wb.add_worksheet(name: "旅費一覧") do |sheet|
+  sheet.add_row ["RefNO", "部門ID", "申請者名", "作番", "金額", "税額", "確定日"]
+
+  @reports.each do |report|
+    kakutei_date = if report.KakuteiDate && report.KakuteiDate.strftime("%Y-%m-%d") == "1900-01-01"
+                     "-"
+                   else
+                     report.KakuteiDate ? report.KakuteiDate.strftime("%Y-%m-%d") : "-"
+                   end
+
+    sheet.add_row [
+      report.RefNO,
+      report.BumonID,
+      report.user&.UserName || "不明",
+      report.Sakuban,
+      report.Fare,
+      report.tax,
+      kakutei_date
+    ]
+  end
+end
