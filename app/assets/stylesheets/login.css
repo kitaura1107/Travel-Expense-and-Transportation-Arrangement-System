@@ -1,0 +1,95 @@
+/* login.css */
+.button-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px; /* ボタン間のスペースを調整 */
+    margin-top: 30px; /* ボタン上部にスペース */
+    width: 100%;
+  }
+  
+  .actions input[type="submit"], 
+  .close-button button {
+    padding: 12px 20px; /* ボタンの大きさ調整 */
+    font-size: 16px; /* フォントサイズを調整 */
+    cursor: pointer;
+    border: none;
+    border-radius: 8px; /* 丸みをつける */
+    transition: all 0.3s ease; /* スムーズなアニメーション */
+    width: 48%; /* ボタンの横幅を半分に */
+  }
+  
+  /* ログインボタン */
+  .actions input[type="submit"] {
+    background-color: #4CAF50; /* グリーン系の背景 */
+    color: white;
+  }
+  
+  .actions input[type="submit"]:hover {
+    background-color: #45a049; /* ホバー時に背景色を少し濃く */
+  }
+  
+  /* 閉じるボタン */
+  .close-button button {
+    background-color: #f44336; /* レッド系の背景 */
+    color: white;
+  }
+  
+  .close-button button:hover {
+    background-color: #e53935; /* ホバー時に背景色を少し濃く */
+  }
+  
+  /* ボタン間のスペース */
+  .button-container .actions,
+  .button-container .close-button {
+    flex: 1; /* 両ボタンを均等に配置 */
+  }
+  
+  /* フォーム全体のスタイル */
+  .form-container {
+    width: 100%;
+    max-width: 450px;
+    margin: 0 auto;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* フィールドのスタイル */
+  .field {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+  
+  /* ログインフォームのラベル */
+  .field label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    font-size: 14px;
+  }
+  
+  /* 入力フィールドのスタイル */
+  input[type="text"], input[type="password"] {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    box-sizing: border-box;
+  }
+  
+  input[type="text"]:focus, input[type="password"]:focus {
+    border-color: #4CAF50;
+    outline: none;
+  }
+  
+  /* ユーザー名表示のスタイル */
+  .field label span {
+    font-weight: normal;
+    color: #333;
+  }
+  
