@@ -2,6 +2,7 @@
   table {
     border-collapse: collapse;
     width: 100%;
+    margin: 20px 0;
   }
 
   th {
@@ -17,13 +18,17 @@
     text-align: center;
   }
 
-  /* ← ここがポイント！thとtdの境目に横線入れる */
   thead {
     border-bottom: 2px solid black;
   }
 
   tr:last-child td {
-    border-bottom: 1px solid black; /* 最後の行だけ下線入れたいときに */
+    border-bottom: 1px solid black;
+  }
+
+  button {
+    display: block;
+    margin-left: auto;
   }
 </style>
 

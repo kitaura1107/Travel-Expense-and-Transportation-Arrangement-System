@@ -1,0 +1,46 @@
+.department-form-page {
+  font-family: sans-serif;
+  padding: 40px 30px;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 5%;
+  font-size: 1.1rem;
+}
+
+.department-search-area {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+    margin-right: 50%;
+}
+
+.department-search-form {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.department-form-group {
+  margin-bottom: 16px;
+}
+
+.department-form-group input,
+.department-form-group select,
+input[type="text"] {
+  padding-left: 8px;
+  box-sizing: border-box;
+}
+
+.department-bottom-buttons {
+  margin-top: 24px;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.department-bottom-buttons button:last-child {
+  margin-left: auto;
+  margin-right: 60%;
+}

@@ -1,0 +1,78 @@
+.report-page {
+  font-family: sans-serif;
+  padding: 30px 20px;
+  max-width: 1200px;
+  margin: 40px auto;
+  font-size: 1.1rem;
+}
+
+.report-page h1 {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.report-search-form > div {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+
+.report-search-form label {
+  font-weight: bold;
+}
+
+.report-search-form input[type="date"] {
+  padding: 6px 8px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.report-search-form input[type="checkbox"] {
+  margin-left: 10px;
+  margin-right: 4px;
+}
+
+
+.report-search-form input[type="submit"]:hover {
+  background-color: #005fa3;
+}
+
+/* 表を横スクロール可能に */
+.report-table-wrapper {
+  overflow-x: auto;
+  margin-bottom: 24px;
+}
+
+.report-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 900px; /* 横幅が足りない場合にスクロールを発生 */
+}
+
+.report-table th,
+.report-table td {
+  border: 1px solid #444;
+  padding: 8px 12px;
+  text-align: center;
+}
+
+.report-table thead {
+  background-color: #f0f0f0;
+  border-bottom: 2px solid #444;
+}
+
+.report-table tbody tr:hover {
+  background-color: #e0f0ff;
+}
+
+.report-buttons {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  margin-bottom: 40px;
+}
+

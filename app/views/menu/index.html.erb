@@ -1,11 +1,15 @@
 <%= stylesheet_link_tag 'menu' %>
-<div>
-  <ol>
-    <li><%= link_to '旅費手配メイン', travel_requests_path %></li>
-    <li><%= link_to '社員・タコマスタメンテ', employee_taco_masters_path %></li>
-    <li><%= link_to '部門マスタメンテ', departments_path %></li>
-    <li><%= link_to '集計帳票', reports_path %></li>
-  </ol>
+<div class="menu">
+  <div>
+    <ol>
+      <li><%= link_to '旅費手配メイン', travel_requests_path %></li>
+      <li><%= link_to '社員・タコマスタメンテ', employee_taco_masters_path %></li>
+      <li><%= link_to '部門マスタメンテ', departments_path %></li>
+      <li><%= link_to '集計帳票', reports_path %></li>
+    </ol>
+  </div>
 </div>
 
-<%= button_to "閉じる（ログアウト）", destroy_xx_user_id_session_path, method: :delete, form: { style: "display:inline" } %>
+<div class="menu logout-button">
+  <%= button_to "閉じる（ログアウト）", destroy_xx_user_id_session_path, method: :delete, form: { style: "display:inline" } %>
+</div>

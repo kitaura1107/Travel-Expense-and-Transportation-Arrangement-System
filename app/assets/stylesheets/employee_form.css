@@ -1,0 +1,46 @@
+.employee-form-page {
+  font-family: sans-serif;
+  padding: 40px 30px;     /* paddingを広げつつ調整 */
+  max-width: 1200px;       /* 最大幅を大きく */
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 5%;
+  font-size: 1.1rem;      /* 少し文字を大きくして見やすく */
+}
+
+
+.search-area {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  margin-right: 50%;
+}
+
+.search-form {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.form-group {
+  margin-bottom: 16px;
+}
+
+.form-group input,
+.form-group select {
+  padding-left: 8px;  /* 入力欄の左余白 */
+  box-sizing: border-box;
+}
+
+.bottom-buttons {
+  margin-top: 24px;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.bottom-buttons button:last-child {
+  margin-left: auto;    /* 閉じるボタンを右端に寄せつつ少し内側に */
+  margin-right: 60%;
+}

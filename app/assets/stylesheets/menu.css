@@ -1,0 +1,37 @@
+.menu > div {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  margin: 0 auto;       /* 横中央寄せ */
+  padding: 60px 40px;   /* 上下60px、左右40pxのパディング */
+  max-width: 900px;     /* 最大幅を設定して広がりすぎを防止 */
+  text-align: center;
+}
+
+
+.menu ol {
+  padding-left: 20px;
+  margin: 20px auto;
+  display: inline-block;
+  text-align: left;
+}
+
+.menu ol li {
+  margin: 50px 0;
+  font-size: 18px;
+}
+
+.menu ol li a {
+  text-decoration: none;
+  color: #007bff;
+}
+
+.menu ol li a:hover {
+  text-decoration: underline;
+  color: #0056b3;
+}
+
+.menu.logout-button {
+  display: block;
+  text-align: right;
+  margin-top: 40px;
+  margin-right: 40%;
+}

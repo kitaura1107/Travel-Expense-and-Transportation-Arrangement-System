@@ -1,24 +1,70 @@
-<h1>部門一覧</h1>
+<style>
+  .department-list-page {
+    font-family: sans-serif;
+    padding: 30px 20px;
+    max-width: 1000px;
+    margin: 40px auto 0 auto;
+    font-size: 1.1rem;
+  }
 
-<table border="1" cellspacing="0" cellpadding="8">
-  <thead>
-    <tr>
-      <th>部門コード</th>
-      <th>部門名</th>
-      <th>登録日時</th>
-      <th>更新日時</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @xxm_bumons.each do |department| %>
+  .department-list-page h1 {
+    text-align: center;
+    margin-bottom: 24px;
+  }
+
+  .department-list-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 24px;
+  }
+
+  .department-list-table th,
+  .department-list-table td {
+    border: 1px solid #000;
+    padding: 8px;
+    text-align: center;
+  }
+
+  .department-list-table thead {
+    background-color: #f0f0f0;
+    border-bottom: 2px solid #000;
+  }
+
+  .department-list-table tr:last-child td {
+    border-bottom: 1px solid #000;
+  }
+
+  .department-list-buttons {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .department-list-buttons button {
+    cursor: pointer;
+  }
+</style>
+
+
+<div class="department-list-page">
+
+  <table class="department-list-table" cellspacing="0" cellpadding="8">
+    <thead>
       <tr>
-        <td><%= department.BumonCD %></td>
-        <td><%= department.BumonName %></td>
-        <td><%= department.InsTime.strftime('%Y-%m-%d %H:%M:%S') if department.InsTime %></td>
-        <td><%= department.UpdTime.strftime('%Y-%m-%d %H:%M:%S') if department.UpdTime %></td>
+        <th>部門コード</th>
+        <th>部門名</th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+    </thead>
+    <tbody>
+      <% @xxm_bumons.each do |department| %>
+        <tr>
+          <td><%= department.BumonCD %></td>
+          <td><%= department.BumonName %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
 
-<button type="button" onclick="location.href='<%= departments_path %>'">閉じる</button>
+  <div class="department-list-buttons">
+    <button type="button" onclick="location.href='<%= departments_path %>'">閉じる</button>
+  </div>
+</div>

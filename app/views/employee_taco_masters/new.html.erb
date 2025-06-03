@@ -1,52 +1,55 @@
-<div>
-  <%= form_with url: search_path, method: :get, local: true do |form| %>
-    <%= form.label :query, "社員No.・タコ" %>
-    <%= form.text_field :query, placeholder: "0000", value: params[:query], autofocus: true, disabled: @form_flag %>
-    <%= form.submit "検索" %>
+<%= stylesheet_link_tag 'employee_form', media: 'all' %>
+
+<div class="employee-form-page">
+  <div class="search-area">
+    <div class="search-form">
+      <%= form_with url: search_path, method: :get, local: true do |form| %>
+        <%= form.label :query, "社員No.・タコ" %>
+        <%= form.text_field :query, placeholder: "0000", value: params[:query], autofocus: true, disabled: @form_flag %>
+        <%= form.submit "検索" %>
+      <% end %>
+    </div>
+    <button onclick="location.href='<%= employee_index_path %>'">一覧画面</button>
+  </div>
+
+  <hr>
+
+  <% form_url = @record_found ? employee_update_path(@xx_user_id) : employee_create_path %>
+  <% form_method = @record_found ? :patch : :post %>
+
+  <%= form_with model: @xx_user_id, url: form_url, method: form_method, local: true do |form| %>
+    <%= form.hidden_field :UserID, value: (@record_found ? @xx_user_id.UserID : params[:query]) %>
+
+    <div class="form-group">
+      <%= form.label :UserName, "ユーザー名" %>
+      <%= form.text_field :UserName, disabled: !@form_flag %>
+    </div>
+
+    <div class="form-group">
+      <%= form.label :password, "パスワード" %>
+      <%= form.text_field :password, placeholder: "変更する場合のみ入力", disabled: !@form_flag %>
+    </div>
+
+    <div class="form-group">
+      <%= form.label :UserKubun, "ユーザー区分" %>
+      <%= form.select :UserKubun, options_for_select([["社員", "1"], ["タコ", "2"]]), {}, {disabled: !@form_flag} %>
+    </div>
+
+    <div class="form-group">
+      <%= form.label :MailAdress , "メールアドレス" %>
+      <%= form.text_field :MailAdress, disabled: !@form_flag %>
+    </div>
+
+      <div class="bottom-buttons">
+      <%= form.submit "登録" %>
+      <button type="button" onclick="location.href='<%= employee_taco_masters_path(query: params[:query]) %>'">取消</button>
   <% end %>
 
-  <button onclick="location.href='<%= employee_index_path %>'">一覧画面</button>
+    <% if @xx_user_id.UserID.present? %>
+      <%= button_to "削除", employee_delete_path(@xx_user_id.UserID), method: :delete, data: { confirm: "本当に削除しますか？" } %>
+    <% else %>
+      <button type="button" disabled>削除</button>
+    <% end %>
+    <button type="button" onclick="location.href='<%= menu_path %>'">閉じる</button>
+  </div>
 </div>
-
-<hr>
-
-<% form_url = @record_found ? employee_update_path(@xx_user_id) : employee_create_path %>
-<% form_method = @record_found ? :patch : :post %>
-
-<%= form_with model: @xx_user_id, url: form_url, method: form_method, local: true do |form| %>
-  <%= form.hidden_field :UserID, value: (@record_found ? @xx_user_id.UserID : params[:query]) %>
-
-  <div>
-    <%= form.label :UserName, "ユーザー名" %>
-    <%= form.text_field :UserName, disabled: !@form_flag %>
-  </div>
-
-  <div>
-    <%= form.label :password, "パスワード" %>
-    <%= form.text_field :password, placeholder: "変更する場合のみ入力", disabled: !@form_flag %>
-  </div>
-
-  <div>
-    <%= form.label :UserKubun, "ユーザー区分" %>
-    <%= form.select :UserKubun, options_for_select([["社員", "1"], ["タコ", "2"]]), {}, {disabled: !@form_flag} %>
-  </div>
-
-  <div>
-    <%= form.label :MailAdress , "メールアドレス" %>
-    <%= form.text_field :MailAdress, disabled: !@form_flag %>
-  </div>
-  <div>
-    <%= form.submit "登録" %>
-    <button type="button" onclick="location.href='<%= employee_taco_masters_path(query: params[:query]) %>'">取消</button>
-  </div>
-<% end %>
-
-<div>
-  <% if @xx_user_id.UserID.present? %>
-    <%= button_to "削除", employee_delete_path(@xx_user_id.UserID), method: :delete, data: { confirm: "本当に削除しますか？" } %>
-  <% else %>
-    <%= button_tag "削除", type: "button", onclick: "return false;" %>
-  <% end %>
-  <button type="button" onclick="location.href='<%= menu_path %>'">閉じる</button>
-</div>
-

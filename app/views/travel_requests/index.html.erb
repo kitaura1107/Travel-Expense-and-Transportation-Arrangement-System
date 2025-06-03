@@ -1,31 +1,86 @@
-<h1>Travel Requests List</h1>
+<style>
+.ryohi-page {
+  font-family: sans-serif;
+  padding: 30px 20px;
+  max-width: 1000px;
+  margin: 40px auto;
+  font-size: 1.1rem;
+}
 
-<table border="1" cellspacing="0" cellpadding="5">
-  <thead>
-    <tr>
-      <th>伝票No.</th>
-      <th>申請者</th>
-      <th>旅費手配名</th>
-      <th>金額</th>
-      <th>確定(Y/N)</th>
-      <th>確定日</th>
-    </tr>
-  </thead>
+.ryohi-page h1 {
+  text-align: center;
+  margin-bottom: 24px;
+}
 
-  <tbody>
-    <% @xx_ryohi_t.each do |item| %>
-      <tr>
-        <td><%= item.RefNO %></td>
-        <td><%= item.InsUserID %></td>
-        <td><%= item.RyohiTName %></td>
-        <td><%= number_with_delimiter(item.Fare) %> </td>
-        <td><%= (item.KakuteiFlag == "0" && item.TKakuteiFlag == "0") ? "Y" : "N" %></td>
-        <td>
-          <%= (item.KakuteiDate && item.KakuteiDate.strftime("%Y-%m-%d") == "1900-01-01") ? "-" : (item.KakuteiDate ? item.KakuteiDate.strftime("%Y-%m-%d") : "-") %>
-        </td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+.ryohi-table-wrapper {
+  overflow-x: auto;
+  margin-bottom: 24px;
+}
 
- <button type="button" onclick="location.href='<%= travel_requests_path %>'">閉じる</button>
+.ryohi-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 800px;
+}
+
+.ryohi-table th,
+.ryohi-table td {
+  border: 1px solid #444;
+  padding: 8px 12px;
+  text-align: center;
+}
+
+.ryohi-table thead {
+  background-color: #f0f0f0;
+  border-bottom: 2px solid #444;
+}
+
+.ryohi-table tbody tr:hover {
+  background-color: #e0f7ff;
+}
+
+.ryohi-buttons {
+  margin-top: 20px;
+  display: flex;
+  justify-content: flex-start;
+  margin-left: 90%;
+  gap: 10px;
+}
+</style>
+
+
+<div class="ryohi-page">
+
+  <div class="ryohi-table-wrapper">
+    <table class="ryohi-table">
+      <thead>
+        <tr>
+          <th>伝票No.</th>
+          <th>申請者</th>
+          <th>旅費手配名</th>
+          <th>金額</th>
+          <th>確定(Y/N)</th>
+          <th>確定日</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @xx_ryohi_t.each do |item| %>
+          <tr>
+            <td><%= item.RefNO %></td>
+            <td><%= item.InsUserID %></td>
+            <td><%= item.RyohiTName %></td>
+            <td><%= number_with_delimiter(item.Fare) %></td>
+            <td><%= (item.KakuteiFlag == "0" && item.TKakuteiFlag == "0") ? "Y" : "N" %></td>
+            <td>
+              <%= (item.KakuteiDate && item.KakuteiDate.strftime("%Y-%m-%d") == "1900-01-01") ? "-" : (item.KakuteiDate ? item.KakuteiDate.strftime("%Y-%m-%d") : "-") %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="ryohi-buttons">
+    <button type="button" onclick="location.href='<%= travel_requests_path %>'">閉じる</button>
+  </div>
+</div>

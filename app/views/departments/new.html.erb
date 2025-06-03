@@ -1,34 +1,37 @@
-<div>
-  <%= form_with url: department_search_path, method: :get, local: true do |form| %>
-    <%= form.label :query, "部門" %>
-    <%= form.text_field :query, placeholder: "W00", value: params[:query], autofocus: true, disabled: @form_flag %>
-    <%= form.submit "検索" %>
-  <% end %>
-
-  <button onclick="location.href='<%= department_index_path %>'">一覧画面</button>
-</div>
-
-<hr>
-
-<% form_url = @record_found ? department_update_path(@xxm_bumon) : department_create_path %>
-<% form_method = @record_found ? :patch : :post %>
-
-<%= form_with model: @xxm_bumon, url: form_url, method: form_method, local: true do |form| %>
-  <%= form.hidden_field :BumonCD, value: @xxm_bumon.BumonCD || params[:query] %>
-  <div>
-    <%= form.label :BumonName, "部門名" %>
-    <%= form.text_field :BumonName, disabled: !@form_flag %>
+<div class="department-form-page">
+  <div class="department-search-area">
+    <div class="department-search-form">
+      <%= form_with url: department_search_path, method: :get, local: true do |form| %>
+        <%= form.label :query, "部門" %>
+        <%= form.text_field :query, placeholder: "W00", value: params[:query], autofocus: true, disabled: @form_flag %>
+        <%= form.submit "検索" %>
+      <% end %>
+    </div>
+    <button onclick="location.href='<%= department_index_path %>'">一覧画面</button>
   </div>
-  <%= form.submit "登録" %>
-  <button type="button" onclick="location.href='<%= departments_path(query: params[:query]) %>'">取消</button>
-<% end %>
 
+  <hr>
 
-<div>
-  <% if @xxm_bumon.BumonCD.present? %>
-    <%= button_to "削除", department_delete_path(@xxm_bumon.BumonCD), method: :delete, data: { confirm: "本当に削除しますか？" } %>
-  <% else %>
-    <%= button_tag "削除", type: "button", onclick: "return false;" %>
+  <% form_url = @record_found ? department_update_path(@xxm_bumon) : department_create_path %>
+  <% form_method = @record_found ? :patch : :post %>
+
+  <%= form_with model: @xxm_bumon, url: form_url, method: form_method, local: true do |form| %>
+    <%= form.hidden_field :BumonCD, value: @xxm_bumon.BumonCD || params[:query] %>
+
+    <div class="department-form-group">
+      <%= form.label :BumonName, "部門名" %>
+      <%= form.text_field :BumonName, disabled: !@form_flag %>
+    </div>
+
+    <div class="department-bottom-buttons">
+      <%= form.submit "登録" %>
+      <button type="button" onclick="location.href='<%= departments_path(query: params[:query]) %>'">取消</button>
   <% end %>
-  <button type="button" onclick="location.href='<%= menu_path %>'">閉じる</button>
+    <% if @xxm_bumon.BumonCD.present? %>
+      <%= button_to "削除", department_delete_path(@xxm_bumon.BumonCD), method: :delete, data: { confirm: "本当に削除しますか？" } %>
+    <% else %>
+      <button type="button" disabled>削除</button>
+    <% end %>
+    <button type="button" onclick="location.href='<%= menu_path %>'">閉じる</button>
+  </div>
 </div>
